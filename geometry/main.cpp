@@ -2,7 +2,7 @@
 #include "Point3.h"
 #include "Triangle.h"
 #include "TriangleGenerator.h"
-
+using namespace std;
 int main()
 {
 	TriangleGenerator<Point3, int> t(0);

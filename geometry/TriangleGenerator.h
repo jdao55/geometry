@@ -2,13 +2,11 @@
 #include <vector>
 #include "Triangle.h"
 
-
-using namespace std;
-
 template<	template<class ComponentT> class PointT, 
 			class ComponentT>
 class TriangleGenerator
 {
+
 public:
 	int x;
 	TriangleGenerator(int _x) { x = _x; }
@@ -21,10 +19,10 @@ public:
 	}
 
 	//returns a vector of triangles that cover the defined grid, which is assumed to lie in the z-plane
-	vector<Triangle<PointT, ComponentT>>
+	std::vector<Triangle<PointT, ComponentT>>
 	getTrianglesFrom2dGrid(ComponentT xSpacing, ComponentT ySpacing, int pointCountX, int pointCountY)
 	{
-		vector<Triangle<PointT, ComponentT>> tris;
+		std::vector<Triangle<PointT, ComponentT>> tris;
 
 		//tris.resize(pointCountX*pointCountY*2);
 
