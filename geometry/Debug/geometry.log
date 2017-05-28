@@ -1,2 +1,4 @@
-﻿  geometry.vcxproj -> C:\Users\Alex\Source\Repos\geometry\Debug\geometry.exe
+﻿  main.cpp
+cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
+  geometry.vcxproj -> C:\Users\Alex\Source\Repos\geometry\Debug\geometry.exe
   geometry.vcxproj -> C:\Users\Alex\Source\Repos\geometry\Debug\geometry.pdb (Partial PDB)
