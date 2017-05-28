@@ -36,7 +36,7 @@ public:
 			{
 				PointT<ComponentT> pTL(iX*ySpacing, (iY+1)*ySpacing, 0);
 				PointT<ComponentT> pTR((iX+1)*ySpacing, (iY+1)*ySpacing, 0);
-				PointT<ComponentT> pBL(iX*ySpacing, (iY+1)*ySpacing, 0);
+				PointT<ComponentT> pBL(iX*ySpacing, iY*ySpacing, 0);
 				PointT<ComponentT> pBR((iX+1)*ySpacing, iY*ySpacing, 0);
 
 				Triangle<PointT, ComponentT> tri1(pTL, pTR, pBL);

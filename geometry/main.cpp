@@ -11,7 +11,7 @@ int main()
 	vector<Triangle<Point3, int>> triangles
 		= t.getTrianglesFrom2dGrid(1, 1, 10, 10);
 
-
+	
 
 	return 0;
 }
