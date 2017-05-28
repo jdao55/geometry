@@ -1,6 +1,2 @@
-﻿  TriangleGenerator.cpp
-c:\users\alex\source\repos\geometry\geometry\trianglegenerator.h(15): error C3200: 'PointT': invalid template argument for template parameter 'PointT', expected a class template
-  c:\users\alex\source\repos\geometry\geometry\trianglegenerator.h(16): note: see reference to class template instantiation 'TriangleGenerator<PointT,ComponentT>' being compiled
-c:\users\alex\source\repos\geometry\geometry\trianglegenerator.h(15): error C3203: 'Triangle': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
-c:\users\alex\source\repos\geometry\geometry\trianglegenerator.cpp(8): error C3200: 'PointT': invalid template argument for template parameter 'PointT', expected a class template
-c:\users\alex\source\repos\geometry\geometry\trianglegenerator.cpp(8): error C3203: 'Triangle': unspecialized class template can't be used as a template argument for template parameter '_Ty', expected a real type
+﻿  geometry.vcxproj -> C:\Users\Alex\Source\Repos\geometry\Debug\geometry.exe
+  geometry.vcxproj -> C:\Users\Alex\Source\Repos\geometry\Debug\geometry.pdb (Partial PDB)

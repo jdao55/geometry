@@ -12,7 +12,6 @@ template<	template<	template <class ComponentT> class PointT> class Triangle,
 class TriangleGenerator
 {
 public:
-	typedef Triangle<
 
 	TriangleGenerator(){}
 
