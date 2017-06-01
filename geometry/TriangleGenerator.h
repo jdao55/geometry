@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GEOMENTRY_TRIANGLEGENERATOR_H
+#define GEOMENTRY_TRIANGLEGENERATOR_H
+
 #include <vector>
 #include "Triangle.h"
 
@@ -41,3 +43,6 @@ public:
 		return tris;
 	}
 };
+
+
+#endif

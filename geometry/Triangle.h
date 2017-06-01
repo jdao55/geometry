@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GEOMENTRY_TRIANGLE_H
+#define GEOMENTRY_TRIANGLE_H
+
+
 #include "Point3.h"
 
 template<template<class ComponentT> class PointT, class ComponentT>
@@ -23,3 +26,5 @@ public:
 
 	
 };
+
+#endif

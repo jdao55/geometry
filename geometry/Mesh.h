@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GEOMENTRY_MESH_H
+#define GEOMENTRY_MESH_H
+
+
 #include <vector>
 #include "Triangle.h"
 #include <unordered_map>
@@ -37,3 +40,6 @@ public:
 	}
 	
 };
+
+#endif
+
