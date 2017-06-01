@@ -1,3 +1,4 @@
 ﻿  main.cpp
+c:\users\asmit\source\repos\geometry\geometry\main.cpp(40): warning C4244: 'initializing': conversion from '__int64' to 'double', possible loss of data
   geometry.vcxproj -> C:\Users\asmit\Source\Repos\geometry\Debug\geometry.exe
   geometry.vcxproj -> C:\Users\asmit\Source\Repos\geometry\Debug\geometry.pdb (Partial PDB)

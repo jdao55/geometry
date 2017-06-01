@@ -11,13 +11,6 @@ public:
 	int x;
 	TriangleGenerator(int _x) { x = _x; }
 
-	/*TriangleGenerator() {}*/
-
-	PointT<ComponentT> test()
-	{
-		return PointT<ComponentT>(0, 0, 0);
-	}
-
 	//returns a vector of triangles that cover the defined grid, which is assumed to lie in the z-plane
 	std::vector<Triangle<PointT, ComponentT>>
 	getTrianglesFrom2dGrid(ComponentT xSpacing, ComponentT ySpacing, int pointCountX, int pointCountY)
