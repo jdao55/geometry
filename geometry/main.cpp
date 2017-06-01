@@ -2,6 +2,8 @@
 #include "Point3.h"
 #include "Triangle.h"
 #include "TriangleGenerator.h"
+#include "Mesh.h"
+
 using namespace std;
 int main()
 {
@@ -11,7 +13,9 @@ int main()
 	vector<Triangle<Point3, int>> triangles
 		= t.getTrianglesFrom2dGrid(1, 1, 10, 10);
 
-	
+	Mesh<Point3, int> m(triangles);
+
+
 
 	return 0;
 }

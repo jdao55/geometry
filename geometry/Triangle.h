@@ -6,7 +6,7 @@ class Triangle
 {
 public:
 	
-	PointT<ComponentT> p1, p2, p3;
+	PointT<ComponentT> points[3];
 
 	Triangle()	{}
 	Triangle(PointT<ComponentT> _p1, PointT<ComponentT> _p2, PointT<ComponentT> _p3)
@@ -16,9 +16,9 @@ public:
 
 	void setPoints(PointT<ComponentT> _p1, PointT<ComponentT> _p2, PointT<ComponentT> _p3)
 	{
-		p1 = _p1;
-		p2 = _p2;
-		p3 = _p3;
+		points[0] = _p1;
+		points[1] = _p2;
+		points[2] = _p3;
 	}
 
 	

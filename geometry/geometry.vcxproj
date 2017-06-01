@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="TriangleGenerator.h" />
     <ClInclude Include="Point3.h" />
     <ClInclude Include="Triangle.h" />
