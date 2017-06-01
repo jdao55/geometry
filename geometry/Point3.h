@@ -1,7 +1,9 @@
-#pragma once
+#ifndef GEOMENTRY_POINT3_H
+#define GEOMENTRY_POINT3_H
+#include <cstddef>
+#include <functional>
 
-
-template <class ComponentT>
+template <typename ComponentT>
 class Point3
 {
 protected:
@@ -42,7 +44,7 @@ namespace std
 	template <class ComponentT>
 	struct hash<Point3<ComponentT>>
 	{
-		size_t operator()(Point3<ComponentT> const & p) const noexcept
+		uint32_t operator()(Point3<ComponentT> const & p) const noexcept
 		{
 			return (
 				(51 + std::hash<ComponentT>()(p.components[0])) * 51
@@ -51,3 +53,6 @@ namespace std
 		}
 	};
 }
+
+
+#endif

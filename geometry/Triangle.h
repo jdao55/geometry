@@ -4,7 +4,7 @@
 
 #include "Point3.h"
 
-template<template<class ComponentT> class PointT, class ComponentT>
+template<template<typename ComponentT> typename PointT, typename ComponentT>
 class Triangle
 {
 public:

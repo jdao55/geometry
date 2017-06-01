@@ -4,8 +4,7 @@
 #include <vector>
 #include "Triangle.h"
 
-template<	template<class ComponentT> class PointT, 
-			class ComponentT>
+template<	template<typename ComponentT> typename PointT, typename ComponentT>
 class TriangleGenerator
 {
 
