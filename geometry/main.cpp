@@ -16,20 +16,21 @@ int main()
 	try
 	{
 		testTimeComplexity();
+		system("pause");
 		return 0;
+
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << "Exception Occurred. Message: " << e.what() << std::endl;
+		system("pause");
 		return 1;
 	}
-	
-	
 }
 
 void testTimeComplexity()
 {
-	std::vector<int> Ns = { 1000, 2000, 3000 };
+	std::vector<int> Ns = { 1000,2000,3000 };
 	std::vector<double> times;
 
 	for (size_t i = 0; i < Ns.size(); i++)
