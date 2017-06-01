@@ -11,11 +11,9 @@ int main()
 	Point3<int> p = t.test();
 
 	vector<Triangle<Point3, int>> triangles
-		= t.getTrianglesFrom2dGrid(1, 1, 10, 10);
+		= t.getTrianglesFrom2dGrid(1, 1, 3, 3);
 
 	Mesh<Point3, int> m(triangles);
-
-
 
 	return 0;
 }

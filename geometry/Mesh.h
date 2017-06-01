@@ -10,12 +10,13 @@ class Mesh
 public:
 	std::unordered_map<PointT<ComponentT>, std::vector<size_t> > connectivity;
 
-	bool inMap;
+	
 	//std::pair<std::string, double> mapPair;
 
 	Mesh(std::vector<Triangle<PointT, ComponentT>> tris)
 	{
 		size_t numTris = tris.size();
+		bool inMap;
 		for (size_t i = 0; i < numTris; i++)
 			for (int j = 0; j < 3; j++)
 			{
@@ -24,7 +25,7 @@ public:
 
 				if (inMap)
 				{
-					std::vector<size_t> list = mapPair->second;
+					std::vector<size_t>& list = mapPair->second;
 					list.push_back(i);
 				}
 				else
