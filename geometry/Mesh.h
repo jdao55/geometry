@@ -13,7 +13,7 @@ public:
 	std::unordered_map<PointT<ComponentT>, std::vector<uint32_t> > connectivity;
 
 
-	Mesh(std::vector<Triangle<PointT, ComponentT>> tris)
+	Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
 	{
 		uint32_t numTris = tris.size();
 		connectivity.rehash(numTris);
