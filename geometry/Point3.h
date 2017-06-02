@@ -47,7 +47,8 @@ namespace std
 		uint32_t operator()(Point3<ComponentT> const & p) const noexcept
 		{
 			return (
-				(51 + std::hash<ComponentT>()(p.components[0])) * 51
+				
+				(743 + std::hash<ComponentT>()(p.components[0])) * 9967
 				+ std::hash<ComponentT>()(p.components[1])
 				);
 		}

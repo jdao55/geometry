@@ -28,7 +28,7 @@ int main()
 
 void testTimeComplexity()
 {
-	std::vector<int> Ns = { 1000,2000,3000};
+	std::vector<int> Ns = { 3000,4000,5000};
 	std::vector<double> times;
 
 	for (uint32_t i = 0; i < Ns.size(); i++)

@@ -16,6 +16,7 @@ public:
 	Mesh(std::vector<Triangle<PointT, ComponentT>> tris)
 	{
 		uint32_t numTris = tris.size();
+		connectivity.rehash(numTris);
 
 		for (uint32_t i = 0; i < numTris; i++)
 		{
