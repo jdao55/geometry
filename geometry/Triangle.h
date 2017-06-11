@@ -24,6 +24,7 @@ public:
 		points[2] = _p3;
 	}
 
+
 	
 };
 

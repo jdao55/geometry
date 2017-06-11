@@ -1,16 +1,83 @@
 #include <iostream>
+#include <chrono>
+#include <fstream>
+
 #include "Point3.h"
 #include "Triangle.h"
 #include "TriangleGenerator.h"
 #include "Mesh.h"
 
-#include <chrono>
+
+
+void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char * file);
+
+int main()
+{
+	char file_name[128];
+	std::vector<Triangle<Point3,float>> triangle_list;
+
+	std::cout<<"Enter stl file name"<<std::endl;
+	std::cin>> file_name;
+
+	try	
+	{
+		read_stl_bin(triangle_list, file_name);
+		std::cout<<"num of tri : "<<triangle_list.size()<<"\n";
+	}
+
+	catch (const char* msg) {
+ 		std::cerr << msg << std::endl;
+ 	}
+
+}
+
+void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char * file)
+{
+	size_t num_tri;
+	std::ifstream stlFile;
+	stlFile.exceptions( std::ifstream::failbit | std::ifstream::badbit );
+	try
+	{
+		stlFile.open(file, std::ios::in | std::ios::binary);
+		
+		//skips header of stl file
+		stlFile.seekg(80);
+		
+		//read number of triangles in stl file, and converts it to usigned int
+		stlFile.read(reinterpret_cast<char*>(&num_tri), sizeof(num_tri));
+		float point[3];
+
+		for(size_t j=0; j<num_tri; j++)
+		{
+			Point3<float> pointlist[3];
+			stlFile.seekg(12,std::ios_base::cur);
+			
+			//read 36 bytes (3 points in the triangle)
+			for(int i=0;i<3;i++)
+			{
+				stlFile.read(reinterpret_cast<char*>(point), sizeof(float)*3);
+				pointlist[i]=Point3<float>(point[0],point[1],point[2]);
+				
+			}
+			triangle_list.push_back(Triangle<Point3,float>(pointlist[0],pointlist[1],pointlist[2]));
+			
+			//discards last 2 bytes(hold no inforamtion)
+			stlFile.seekg(2,std::ios_base::cur);
+		}
+		stlFile.close();
+	}
+	catch (std::ifstream::failure& e) 
+	{
+    	throw "Exception opening/reading/closing file";
+	}
+
+}	
+/*
 
 typedef std::chrono::high_resolution_clock clk;
 
 double getConnectivityFormationTime(int);
 void testTimeComplexity();
-
 int main()
 {
 	try
@@ -54,6 +121,6 @@ double getConnectivityFormationTime(int N)
 	clk::time_point t2 = clk::now();
 
 	double dif = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-
 	return dif;
 }
+*/

@@ -6,29 +6,26 @@
 template <typename ComponentT>
 class Point3
 {
-protected:
-	
+	protected:
+		
 
-public:
+	public:
 
-	ComponentT components[3];
+		ComponentT components[3];
 
-	Point3() {}
-	Point3(ComponentT _c1, ComponentT _c2, ComponentT _c3)
-	{
-		setComponents(_c1, _c2, _c3);
-	}
-	void setComponents(ComponentT _c1, ComponentT _c2, ComponentT _c3)
-	{
-		components[0] = _c1;
-		components[1] = _c2;
-		components[2] = _c3;
-	}
-
-	
-
-	
+		Point3() {}
+		Point3(ComponentT _c1, ComponentT _c2, ComponentT _c3)
+		{
+			setComponents(_c1, _c2, _c3);
+		}
+		void setComponents(ComponentT _c1, ComponentT _c2, ComponentT _c3)
+		{
+			components[0] = _c1;
+			components[1] = _c2;
+			components[2] = _c3;
+		}
 };
+
 template <class ComponentT>
 inline bool operator==(const Point3<ComponentT>& lhs, const Point3<ComponentT>& rhs)
 {
