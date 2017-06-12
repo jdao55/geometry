@@ -33,7 +33,7 @@ int main()
 
 void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char * file)
 {
-	size_t num_tri;
+	uint32_t num_tri;
 	std::ifstream stlFile;
 	stlFile.exceptions( std::ifstream::failbit | std::ifstream::badbit );
 	try
@@ -44,9 +44,9 @@ void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char
 		stlFile.seekg(80);
 		
 		//read number of triangles in stl file, and converts it to usigned int
-		stlFile.read(reinterpret_cast<char*>(&num_tri), sizeof(num_tri));
+		stlFile.read((char*)(&num_tri), sizeof(uint32_t));
+	
 		float point[3];
-
 		for(size_t j=0; j<num_tri; j++)
 		{
 			Point3<float> pointlist[3];
@@ -55,7 +55,7 @@ void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char
 			//read 36 bytes (3 points in the triangle)
 			for(int i=0;i<3;i++)
 			{
-				stlFile.read(reinterpret_cast<char*>(point), sizeof(float)*3);
+				stlFile.read(reinterpret_cast<char*>(point), sizeof(point));
 				pointlist[i]=Point3<float>(point[0],point[1],point[2]);
 				
 			}
@@ -68,6 +68,7 @@ void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char
 	}
 	catch (std::ifstream::failure& e) 
 	{
+		std::cerr <<e.what()<<"\n";
     	throw "Exception opening/reading/closing file";
 	}
 
