@@ -1,70 +1,90 @@
-#include <iostream>
 #include <chrono>
 #include <fstream>
+#include <unordered_set>
+#include <algorithm>
+#include <functional>
 
 #include "Point3.h"
 #include "Triangle.h"
 #include "TriangleGenerator.h"
 #include "Mesh.h"
+#include "read_stl_bin.h"
 
 
 
-void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char * file);
+
+void output_nearest_n(Mesh<Point3, float>& point_map, std::vector<Triangle<Point3,float>>& triangle_list,char * file);
+
+// returns true if lhs closer to point then rhs
+bool bydistance(const Point3<float>& lhs, Point3<float>& rhs, Point3<float>& point);
 
 int main()
 {
-	char file_name[128];
+
+	char in_file_name[128], out_file_name[128];
 	std::vector<Triangle<Point3,float>> triangle_list;
 
 	std::cout<<"Enter stl file name"<<std::endl;
-	std::cin>> file_name;
+	std::cin>> in_file_name;
+	std::cout<<"Enter output file name"<<std::endl;
+	std::cin>> out_file_name;
 
 	try	
 	{
-		read_stl_bin(triangle_list, file_name);
-		std::cout<<"num of tri : "<<triangle_list.size()<<"\n";
-	}
+		read_stl_bin(triangle_list, in_file_name);
 
-	catch (const char* msg) {
+		Mesh<Point3, float> m(triangle_list);
+		
+		output_nearest_n(m,triangle_list,out_file_name);
+	}
+	catch (const char* msg) 
+	{
  		std::cerr << msg << std::endl;
  	}
 
 }
 
-void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char * file)
+void output_nearest_n(Mesh<Point3, float>& point_map, std::vector<Triangle<Point3,float>>& triangle_list,char * file)
 {
-	uint32_t num_tri;
-	std::ifstream stlFile;
-	stlFile.exceptions( std::ifstream::failbit | std::ifstream::badbit );
+	std::ofstream outfile;
+	outfile.exceptions( std::ofstream::failbit | std::ofstream::badbit );
 	try
 	{
-		stlFile.open(file, std::ios::in | std::ios::binary);
-		
-		//skips header of stl file
-		stlFile.seekg(80);
-		
-		//read number of triangles in stl file, and converts it to usigned int
-		stlFile.read((char*)(&num_tri), sizeof(uint32_t));
-	
-		float point[3];
-		for(size_t j=0; j<num_tri; j++)
+		outfile.open(file, std::ios::out);
+
+		for(auto point=point_map.connectivity.begin();
+			point!=point_map.connectivity.end(); point++)
 		{
-			Point3<float> pointlist[3];
-			stlFile.seekg(12,std::ios_base::cur);
+			std::unordered_set<Point3<float>> neighborList;
 			
-			//read 36 bytes (3 points in the triangle)
-			for(int i=0;i<3;i++)
+
+			for(auto index: point->second)
 			{
-				stlFile.read(reinterpret_cast<char*>(point), sizeof(point));
-				pointlist[i]=Point3<float>(point[0],point[1],point[2]);
-				
+				for(int i=0;i<3;i++){
+					if(!(triangle_list[index].points[i]==point->first))
+						neighborList.insert(triangle_list[index].points[i]);
+				}
 			}
-			triangle_list.push_back(Triangle<Point3,float>(pointlist[0],pointlist[1],pointlist[2]));
-			
-			//discards last 2 bytes(hold no inforamtion)
-			stlFile.seekg(2,std::ios_base::cur);
+			//store in vector so points can be sorted
+			std::vector<Point3<float>> neighborList_vec(neighborList.begin(),neighborList.end());
+
+			std::sort(neighborList_vec.begin(),neighborList_vec.end(),
+				std::bind(&bydistance, std::placeholders::_1, std::placeholders::_2, (point->first)));
+
+			outfile<<(point->first).components[0]<<" "
+				<<(point->first).components[1]<<" "
+				<<(point->first).components[2]<<" "
+				<<"has nn: \n";
+			for(auto it=neighborList_vec.begin();
+				it!=neighborList_vec.begin()+4&&it!=neighborList_vec.end();
+				it++)
+			{
+				outfile<<it->components[0]<<" "
+				<<it->components[1]<<" "
+				<<it->components[2]<<"\n";
+			}
+			outfile<<std::endl;
 		}
-		stlFile.close();
 	}
 	catch (std::ifstream::failure& e) 
 	{
@@ -72,56 +92,15 @@ void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const char
     	throw "Exception opening/reading/closing file";
 	}
 
-}	
-/*
-
-typedef std::chrono::high_resolution_clock clk;
-
-double getConnectivityFormationTime(int);
-void testTimeComplexity();
-int main()
-{
-	try
-	{
-		testTimeComplexity();
-		return 0;
-
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << "Exception Occurred. Message: " << e.what() << std::endl;
-		return 1;
-	}
 }
 
-void testTimeComplexity()
+bool bydistance(const Point3<float>& lhs, Point3<float>& rhs, Point3<float>& point)
 {
-	std::vector<int> Ns = { 500,1500,2500};
-	std::vector<double> times;
-
-	for (uint32_t i = 0; i < Ns.size(); i++)
+	float lhs_d=0, rhs_d=0;
+	for(int i=0; i<3;i++)
 	{
-		double time = getConnectivityFormationTime(Ns[i]);
-		times.push_back(time);
-		int numTris = (Ns[i] - 1)*(Ns[i] - 1) * 2;
-		std::cout << "Time to form connectivity is " << time << " ms for " << numTris << " triangles.";
-		std::cout << " ( " << (double)numTris / time << " triangles per ms ) " << std::endl;
+		rhs_d+=(point.components[i]-rhs.components[i])*(point.components[i]-rhs.components[i]);
+		lhs_d+=(point.components[i]-lhs.components[i])*(point.components[i]-lhs.components[i]);
 	}
+	return lhs_d<rhs_d?true:false;
 }
-
-double getConnectivityFormationTime(int N)
-{
-	TriangleGenerator<Point3, int> t(0);
-
-	std::vector<Triangle<Point3, int>> triangles
-		= t.getTrianglesFrom2dGrid(1, 1, N, N);
-
-	//first 
-	clk::time_point t1 = clk::now();
-	Mesh<Point3, int> m(triangles);
-	clk::time_point t2 = clk::now();
-
-	double dif = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-	return dif;
-}
-*/
