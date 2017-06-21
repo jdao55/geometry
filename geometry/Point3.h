@@ -2,6 +2,7 @@
 #define GEOMENTRY_POINT3_H
 #include <cstddef>
 #include <functional>
+#include <cmath>
 
 template <typename ComponentT>
 class Point3
@@ -13,7 +14,9 @@ class Point3
 
 		ComponentT components[3];
 
-		Point3() {}
+		Point3() {
+			setComponents(HUGE_VALF , HUGE_VALF , HUGE_VALF );
+		}
 		Point3(ComponentT _c1, ComponentT _c2, ComponentT _c3)
 		{
 			setComponents(_c1, _c2, _c3);
