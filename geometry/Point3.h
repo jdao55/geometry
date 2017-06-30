@@ -46,11 +46,13 @@ namespace std
 	{
 		uint32_t operator()(Point3<ComponentT> const & p) const noexcept
 		{
-			return (
-				
-				(743 + std::hash<ComponentT>()(p.components[0])) * 9967
-				+ std::hash<ComponentT>()(p.components[1])
-				);
+			std::hash<ComponentT> hasher;
+			size_t seed=0;
+			for(int i=0;i<3;i++)
+			{
+				seed ^= hasher(p.components[i])+0x9e3779b9+(seed<<6)+(seed>>2);
+			}
+			return seed;
 		}
 	};
 }
