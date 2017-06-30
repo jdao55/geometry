@@ -27,6 +27,17 @@ class Point3
 			components[1] = _c2;
 			components[2] = _c3;
 		}
+		bool less_than_distance(const Point3<float>& rhs, const Point3<float>& point)
+		{
+			float lhs_d=0, rhs_d=0;
+			for(int i=0; i<3;i++)
+			{
+				rhs_d+=(point.components[i]-rhs.components[i])*(point.components[i]-rhs.components[i]);
+				lhs_d+=(point.components[i]-components[i])*(point.components[i]-components[i]);
+			}
+			return lhs_d<rhs_d;
+		}
+
 };
 
 template <class ComponentT>
