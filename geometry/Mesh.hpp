@@ -5,7 +5,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
-#include "Triangle.h"
+#include "Triangle.hpp"
 #include <unordered_map>
 
 #define pi 3.1415926
@@ -17,14 +17,12 @@ public:
 	std::unordered_map<PointT<ComponentT>, std::vector<PointT<ComponentT>> > connectivity;
 
 
-	Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
+	explicit Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
 	{
 		size_t numTris = tris.size();
 		connectivity.rehash(numTris);
 		getConectivity(tris);
-		getNearestNeighborsMap(tris);
-		
-
+		getNearestNeighborsMap();
 	}
 private:
 	void getConectivity(std::vector<Triangle<PointT, ComponentT>>& tris)
@@ -56,7 +54,7 @@ private:
 			}
 		}
 	}
-	void getNearestNeighborsMap(std::vector<Triangle<PointT, ComponentT>>& tris)
+	void getNearestNeighborsMap()
 	{
 		for(auto point=connectivity.begin();
 			point!=connectivity.end(); point++)

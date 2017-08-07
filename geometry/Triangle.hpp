@@ -2,7 +2,7 @@
 #define GEOMENTRY_TRIANGLE_H
 
 
-#include "Point3.h"
+#include "Point3.hpp"
 
 template<template<typename ComponentT> typename PointT, typename ComponentT>
 class Triangle

@@ -1,8 +1,8 @@
-#include "Point3.h"
-#include "Triangle.h"
-#include "TriangleGenerator.h"
-#include "Mesh.h"
-#include "read_stl_bin.h"
+#include "Point3.hpp"
+#include "Triangle.hpp"
+#include "TriangleGenerator.hpp"
+#include "Mesh.hpp"
+#include "read_stl.hpp"
 
 #define pi 3.1415926
 
@@ -25,7 +25,7 @@ int main()
 
 	try	
 	{
-		read_stl_bin(triangle_list, in_file_name);
+		read_stl(triangle_list, in_file_name);
 
 		Mesh<Point3, float> m(triangle_list);
 	

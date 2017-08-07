@@ -2,7 +2,7 @@
 #define GEOMENTRY_TRIANGLEGENERATOR_H
 
 #include <vector>
-#include "Triangle.h"
+#include "Triangle.hpp"
 
 template<	template<typename ComponentT> typename PointT, typename ComponentT>
 class TriangleGenerator
@@ -10,7 +10,7 @@ class TriangleGenerator
 
 public:
 	int x;
-	TriangleGenerator(int _x) { x = _x; }
+	explicit TriangleGenerator(int _x) { x = _x; }
 
 	//returns a vector of triangles that cover the defined grid, which is assumed to lie in the z-plane
 	std::vector<Triangle<PointT, ComponentT>>
