@@ -20,27 +20,34 @@ public:
 	explicit Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
 	{
 		size_t numTris = tris.size();
+        //resize hash map
 		connectivity.rehash(numTris);
+        //get connectivity map
 		getConectivity(tris);
+        //get nn out of map
 		getNearestNeighborsMap();
 	}
 private:
 	void getConectivity(std::vector<Triangle<PointT, ComponentT>>& tris)
 	{
+        //iterate thru each triangle
 		for (size_t i = 0; i < tris.size(); i++)
 		{
+            //iterate thru points in traingle
 			for (size_t j = 0; j < 3; j++)
 			{
 				auto mapPair = connectivity.find(tris[i].points[j]);
-
+                //if point is fount in map
 				if (mapPair != connectivity.end())
 				{
 					for (size_t k = 0; k < 3; k++)
 					{
+                        //insert new connectivity points to map
 						if(k!=j)
 						mapPair->second.push_back(tris[i].points[k]);
 					}
 				}
+                //create new tuple and insert if point is not found
 				else
 				{
 					std::vector<PointT<ComponentT>> newVec;
@@ -65,6 +72,7 @@ private:
 	void getNNpoint(const PointT<ComponentT>& point,std::vector<PointT<ComponentT>>& point_list)
 	{
 		std::vector<PointT<ComponentT>> neighborList_vec(4);
+        //find north south east west points add to neighbourList_vec
 		for(auto iter:point_list)
 		{
 			double angle =get_angle(point, iter);
@@ -89,9 +97,10 @@ private:
 					neighborList_vec[3]=(iter);
 			}	
 		}
+        //swap map vector with neighbor_list_vec which gets deconstructed when it goes out of scope
 		std::swap(point_list, neighborList_vec);
 	}
-
+    //return trues if dist of lhs is closer to point than rhs
 	bool less_than_distance(const PointT<ComponentT>& lhs,const PointT<ComponentT>& rhs, const PointT<ComponentT>& point)
 	{
 		float lhs_d=0, rhs_d=0;
@@ -102,13 +111,14 @@ private:
 		}
 		return lhs_d<rhs_d;
 	}
+    //retruns the angle between 2 points
 	double get_angle(const PointT<ComponentT>& origin, const PointT<ComponentT>& other)
 	{
 		double deltaY = other.components[1]-origin.components[1];
 	    double deltaX = other.components[0]-origin.components[0];
 	    return angle_trunc(atan2(deltaY, deltaX));
 	}
-
+    //trancate angle given by atan2(from 0 to 2pi)
 	double angle_trunc(double angle)
 	{
 		while (angle < 0.0)

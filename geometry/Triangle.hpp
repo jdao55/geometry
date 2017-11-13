@@ -23,8 +23,6 @@ public:
 		points[1] = _p2;
 		points[2] = _p3;
 	}
-
-
 	
 };
 

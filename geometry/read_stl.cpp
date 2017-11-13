@@ -1,5 +1,5 @@
 #include "read_stl.hpp"
-
+//reads one ascii trangle
 void read_triangle(std::vector<Triangle<Point3,float>>& triangle_list, std::string str_list[])
 {
     Point3<float> p_list[3];
@@ -7,15 +7,20 @@ void read_triangle(std::vector<Triangle<Point3,float>>& triangle_list, std::stri
     {
         std::istringstream ss(str_list[i]);
         std::string temp;
-        std::vector<std::string> num_str{std::istream_iterator<std::string>(ss),
-                std::istream_iterator<std::string>()};
+        //read in strings
+        std::vector<std::string> num_str{std::istream_iterator<std::string>(ss), std::istream_iterator<std::string>()};
         std::vector<float> coordlist;
+        //transform to floats
         std::transform(num_str.begin()+1, num_str.end(), std::back_inserter(coordlist),
-                       [](std::string& a)-> float{return std::stof(a);});
+					   [](std::string& a){return std::stof(a);});
+        //create update point list
         p_list[i]=Point3<float>(coordlist[0], coordlist[1], coordlist[2]);
     }
+    //create trangle and push back
     triangle_list.push_back(Triangle<Point3, float>(p_list[0], p_list[1], p_list[2])); 
 }
+
+//read ascii stl file
 void read_stl(std::vector<Triangle<Point3,float>>& triangle_list, const std::string& file)
 {
     std::string buffer;
@@ -30,11 +35,14 @@ void read_stl(std::vector<Triangle<Point3,float>>& triangle_list, const std::str
         {
             std::string point_string[3];
             getline(stlFile,buffer);
+            //read in data for triangle
             for(int i=0; i<3; i++)
             {
                 getline(stlFile, point_string[i]);
             }
+            //read trianlge
             read_triangle(triangle_list, point_string);
+            //discard lines with no data
             getline(stlFile,buffer);
             getline(stlFile,buffer);
             getline(stlFile,buffer);
@@ -49,7 +57,7 @@ void read_stl(std::vector<Triangle<Point3,float>>& triangle_list, const std::str
     
 }
 
-
+//read binary stl files
 void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const std::string& file)
 {
 	uint32_t num_tri;
@@ -70,7 +78,7 @@ void read_stl_bin(std::vector<Triangle<Point3,float>>& triangle_list, const std:
 	stlFile.close();
 }
 
-
+//read binary triangle
 void read_triangle_bin(std::vector<Triangle<Point3,float>>& triangle_list, std::ifstream & stlFile)
 {
 	float point[3];

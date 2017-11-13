@@ -7,36 +7,38 @@
 template <typename ComponentT>
 class Point3
 {
-	protected:
+protected:
 		
 
-	public:
-
-		ComponentT components[3];
-
-		Point3() {
-			setComponents(HUGE_VALF , HUGE_VALF , HUGE_VALF );
-		}
-		Point3(ComponentT _c1, ComponentT _c2, ComponentT _c3)
-		{
+public:
+    
+    ComponentT components[3];
+    
+    Point3() {
+        setComponents(HUGE_VALF , HUGE_VALF , HUGE_VALF );
+    }
+    Point3(ComponentT _c1, ComponentT _c2, ComponentT _c3)
+	{
 			setComponents(_c1, _c2, _c3);
-		}
-		void setComponents(ComponentT _c1, ComponentT _c2, ComponentT _c3)
+	}
+    void setComponents(ComponentT _c1, ComponentT _c2, ComponentT _c3)
+	{
+		components[0] = _c1;
+		components[1] = _c2;
+		components[2] = _c3;
+	}
+
+	//returns true if point if current point3 object is closer to point than rhs
+	bool less_than_distance(const Point3<float>& rhs, const Point3<float>& point)
+	{
+		float lhs_d=0, rhs_d=0;
+		for(int i=0; i<3;i++)
 		{
-			components[0] = _c1;
-			components[1] = _c2;
-			components[2] = _c3;
+			rhs_d+=(point.components[i]-rhs.components[i])*(point.components[i]-rhs.components[i]);
+			lhs_d+=(point.components[i]-components[i])*(point.components[i]-components[i]);
 		}
-		bool less_than_distance(const Point3<float>& rhs, const Point3<float>& point)
-		{
-			float lhs_d=0, rhs_d=0;
-			for(int i=0; i<3;i++)
-			{
-				rhs_d+=(point.components[i]-rhs.components[i])*(point.components[i]-rhs.components[i]);
-				lhs_d+=(point.components[i]-components[i])*(point.components[i]-components[i]);
-			}
-			return lhs_d<rhs_d;
-		}
+		return lhs_d<rhs_d;
+	}
 
 };
 
