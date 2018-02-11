@@ -16,8 +16,8 @@ class Mesh
 public:
 	std::unordered_map<PointT<ComponentT>, std::vector<PointT<ComponentT>> > connectivity;
 
-
-	explicit Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
+    // constructor
+	Mesh(std::vector<Triangle<PointT, ComponentT>>& tris)
 	{
 		size_t numTris = tris.size();
         //resize hash map
@@ -71,34 +71,21 @@ private:
 	}
 	void getNNpoint(const PointT<ComponentT>& point,std::vector<PointT<ComponentT>>& point_list)
 	{
-		std::vector<PointT<ComponentT>> neighborList_vec(4);
-        //find north south east west points add to neighbourList_vec
-		for(auto iter:point_list)
-		{
-			double angle =get_angle(point, iter);
-			if ((angle<pi/4 && angle >= 0) || (angle>7*pi/4))
-			{
-				if(less_than_distance(iter, neighborList_vec[0],point))
-					neighborList_vec[0]=(iter);
-			}
-			else if (angle<pi*3/4)
-			{
-				if(less_than_distance(iter, neighborList_vec[1],point))
-					neighborList_vec[1]=(iter);
-			}
-			else if (angle<pi*5/4)
-			{
-				if(less_than_distance(iter, neighborList_vec[2],point))
-					neighborList_vec[2]=(iter);
-			}
-			else if (angle<=7*pi/4)
-			{
-				if(less_than_distance(iter, neighborList_vec[3],point))
-					neighborList_vec[3]=(iter);
-			}	
-		}
-        //swap map vector with neighbor_list_vec which gets deconstructed when it goes out of scope
-		std::swap(point_list, neighborList_vec);
+        using namespace std::placeholders;
+        //if number of points <4 expand the list using neighbors neighbors
+        if(point_list.size()<4){
+            std::vector<PointT<ComponentT>> expanded_list=point_list;
+            for (auto const &p:point_list)
+            {
+                expanded_list+=connectivity[p];
+            }
+            std::swap(expanded_list, point_list);
+        }
+        //creating the sort function for the sort
+        auto less_than=std::bind(less_than_distance, point,_2,_3);
+        //sort points and keep the 1st four
+        std::sort(point_list.begin(), point_list.end(), less_than);
+        point_list.resize(4);
 	}
     //return trues if dist of lhs is closer to point than rhs
 	bool less_than_distance(const PointT<ComponentT>& lhs,const PointT<ComponentT>& rhs, const PointT<ComponentT>& point)
